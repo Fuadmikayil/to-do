@@ -1,22 +1,22 @@
 // app/userpanel/page.js
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { createClient } from '../../utils/supabase/server'
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { createClient } from "../../utils/supabase/server";
 
 export default async function UserPanelPage() {
-  const supabase = await createClient()
+  const supabase = await createClient();
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
   // If not signed in, redirect to sign-in
-  if (!user) redirect('/signin')
+  if (!user) redirect("/signin");
 
   // user_metadata holds the extra fields you passed on sign-up
   const {
     email,
     user_metadata: { name, surname },
-  } = user
+  } = user;
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center space-y-6">
@@ -43,14 +43,20 @@ export default async function UserPanelPage() {
       <Link href="/" className="text-blue-400 underline">
         Back to Home
       </Link>
+      <Link href="/userpanel/tasks" className="text-green-600 underline">
+        Manage My Tasks
+      </Link>
     </main>
-  )
+  );
 }
 
 // Server Action to sign out
 async function handleSignOut() {
-  'use server'
-  const supabase = await createClient()
-  await supabase.auth.signOut()
-  redirect('/')
+  "use server";
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/");
+  
+  
 }
+
